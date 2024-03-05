@@ -94,16 +94,24 @@ The following equation:
 $\frac{\partial ω}{\partial t} + u \nabla ω = ν_α \nabla ^2ω$ 
 
 
-is solved using the Forward Euler method:
+is solved using the Forward Euler method.
 
-$ω_{n+1} = ω_n - Δt{[u_{i,j}^n ( \frac{\partial ω}{\partial x})_{i,j} + v_{i,j}^n ( \frac{\partial ω}{\partial y})_{i,j}]} +  ν_α [  ( \frac{\partial ^2 ω}{\partial x^2})_{i,j} + ( \frac{\partial ^2 ω}{\partial y^2})_{i,j}]}$
+The first-order spatial derivatives were computed using the central finite differences
+scheme and forward/backward difference approximation at the boundary points,
+
+while the second-order spatial derivatives were calculated only at the internal points
+using a central finite differences scheme:
+
+The change of the vorticity value over time implies a change in boundary conditions and
+the value of the stream function. 
+Therefore, at each time step the boundary conditions must be recalculated, the system must be re-solved and new velocities must be
+calculated.
+This is achieved via the following main section of code (here for the viscous
+case, similarly for the non-viscous case):
 
 
-
-
-Test
-
-
+*For the viscous case, a time step dt=0.1 was selected while for the non-viscous case
+dt=0.01 was selected.
 
 
 
