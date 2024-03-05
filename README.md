@@ -47,6 +47,48 @@ $\frac{ψ_(i+1,j) + ψ_(i-1,j) - 4ψ_(i,j) + ψ_(i,j-1) + ψ_(i,j+1)}{Δx^2} = -
 $ψ_Β = - \sum_{2}^{N-1} \sum_{2}^{N-1} \frac{1}{2π} ln(|r-r_j|)ω_(i,j)Δx^2$           (2)
 
 
+The following function calculates the vorticity at each point (I,j) by taking the addition of the vorticity of the two Taylor vortices. It takes the distance of each node from the 2
+vortices as arguments:
+
+
+# Step 3 - Solving the linear system
+
+The linear problem is expressed on the following form:
+
+$A*ψ = b$
+
+where ψ, b are vectors of $N^2$ dimension while A is a $N^2$ x $N^2$ matrix.
+
+Observing the equation (1) we deduce that for all internal points of 𝜜, the following would
+apply:
+
+$A(k,k) = - \frac{4}{Δx^2}$
+
+And the (-N, -1, 1, N)-th diagonals (main diagonal is 0) would be equal to $\frac{1}\{Δx^2}$.
+When k takes a value corresponding to an external point, due to equation (2), the
+corresponding k-th line of A is overwritten with zeros in all places except for the element
+of the main diagonal which takes a unit value.
+Taking into account the aforementioned observations, we construct the matrix A (denoted
+as M in the code) using the following function:
+
+For the k values that correspond to interior points:
+
+$b_k = -ω_(i,j)$
+
+When k refers to a boundary point, 𝑏𝑘 will take the corresponding value of the stream
+function. Exploiting the principle above, the following function forms the vector b and
+then solves the linear system with respect to ψ (denoted as xx in the code):
+
+
+
+
+
+
+
+
+
+
+
 
 
 
