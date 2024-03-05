@@ -42,9 +42,9 @@ equidistance: Δx = Δy = 0.2.
 The index i =1, 2, …, 51 runs through the points along the x-direction, while the index j = 1,2, …, 51 in the vertical direction. The aforementioned equations are now expressed in the discrete domain using a central finite differences scheme for each partial derivative:
 
 
-$\frac{ψ_(i+1,j) + ψ_(i-1,j) - 4ψ_(i,j) + ψ_(i,j-1) + ψ_(i,j+1)}{Δx^2} = -ω_(i,j)$    (1)
+$\frac{ψ_{i+1,j} + ψ_{i-1,j} - 4ψ_{i,j} + ψ_{i,j-1} + ψ_{i,j+1}}{Δx^2} = -ω_{i,j}$    (1)
 
-$ψ_Β = - \sum_{2}^{N-1} \sum_{2}^{N-1} \frac{1}{2π} ln(|r-r_j|)ω_(i,j)Δx^2$           (2)
+$ψ_Β = - \sum_{2}^{N-1} \sum_{2}^{N-1} \frac{1}{2π} ln(|r-r_j|)ω_{i,j}Δx^2$           (2)
 
 
 The following function calculates the vorticity at each point (I,j) by taking the addition of the vorticity of the two Taylor vortices. It takes the distance of each node from the 2
@@ -80,11 +80,23 @@ function. Exploiting the principle above, the following function forms the vecto
 then solves the linear system with respect to ψ (denoted as xx in the code):
 
 
+Since $𝑢 = \frac{\partial ψ}{\partial y}$ , and $v =  - \frac{\partial ψ}{\partial x}$ the calculation of the velocities uses, the central finite
+differences scheme regarding the internal points, while at the boundary points backward
+or forward difference approximation is implemented. The calculations were carried out
+via the following section of code:
 
 
+# Step 4 - Solving the Time-dependent problem
+
+The following equation:
 
 
+$\frac{\partial ω}{\partial t} + u \nabla ω = ν_α \nabla ^2ω$ 
 
+
+is solved using the Forward Euler method:
+
+$ω_{n+1} = ω_n - Δt{[u_{i,j}^n ( \frac{\partial ω}{\partial x})_{i,j} + v_{i,j}^n ( \frac{\partial ω}{\partial y})_{i,j}]} +  ν_α [  ( \frac{\partial ^2 ω}{\partial x^2})_{i,j} + ( \frac{\partial ^2 ω}{\partial y^2})_{i,j}]}$
 
 
 
